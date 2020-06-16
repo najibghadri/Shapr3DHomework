@@ -5,7 +5,7 @@ Najib Ghadri
 
 Task description: https://docs.google.com/document/d/1eA_v3622sIO4M4Hk7kUeq3nm-sn7cyXLxIpdvwr2faE
 
-### Architecture
+### Overview
 
 ### Deployment
 

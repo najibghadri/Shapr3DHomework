@@ -1,0 +1,20 @@
+{
+  "name": "shapr-server",
+  "version": "1.0.0",
+  "description": "Shapr3D backend engineer homework job application",
+  "main": "server.js",
+  "scripts": {
+    "start": "pm2 start server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/najibghadri/Shapr3DHomework.git"
+  },
+  "author": "Najib Ghadri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/najibghadri/Shapr3DHomework/issues"
+  },
+  "homepage": "https://github.com/najibghadri/Shapr3DHomework#readme"
+}
