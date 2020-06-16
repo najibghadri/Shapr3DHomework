@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "pm2 start server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "rediscli": "node ./node_modules/redis-cli/index.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/najibghadri/Shapr3DHomework/issues"
   },
-  "homepage": "https://github.com/najibghadri/Shapr3DHomework#readme"
+  "homepage": "https://github.com/najibghadri/Shapr3DHomework#readme",
+  "devDependencies": {
+    "redis-cli": "^1.4.0"
+  }
 }
