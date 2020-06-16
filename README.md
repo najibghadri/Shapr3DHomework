@@ -9,7 +9,7 @@ The front-end uses the deployed backend api but I found it's best to deploy the 
 **Deployed application**: https://codesandbox.io/s/hungry-vaughan-49uno
 
 
-### Main points of the specification
+## Main points of the specification
  - Hundreds of thousands of conversion requests per day.
  - Conversion transactions and requests as defined in the spec.
  - Appealing and usable UI.
@@ -17,7 +17,7 @@ The front-end uses the deployed backend api but I found it's best to deploy the 
 
 I assumed one user in the system, as user-management and auth were not required, but this can easily be extended to multi-user.
 
-### Overview
+## Overview
 The backend is built with Node.js and the front-end is built with React.js.
 The server is deployed on AWS Frankfurt region.
 The backend is follows a **microservices** architecture:
@@ -28,13 +28,15 @@ The backend is follows a **microservices** architecture:
  - Database - PostgreSQL 12. RDS instance
  - Cache server - Redis 5.0.6 ElastiCache instance
 
-Server
+### Server
+Main packages used
+ - 
 
-#### Binary stub
+### Binary stub
 
-#### Deployment
+### Deployment
 
-#### Scalability and fault tolerance
+### Scalability and fault tolerance
 
 The Node.js request server file does not hold state, thus it can be deployed in a cluster and the nodes are independent of each other and the ongoing conversion processes. The conversion processes are spawned by each server node upon request, and they update the conversion status to the database and cache database. If a conversion process fails that is written to the databases.
 
@@ -42,11 +44,11 @@ Hence **the system is horizontally scalable** and the only centralized points ar
 
 Stream processsing
 
-#### Logging
+### Logging
 
-#### Performance testing
+### Performance testing
 
-### Modifications for real production
+## Modifications for real production
 The front-end server should be decomposed into request, processing and storage server:
  - Request server + front-end server - I suggest an EC2 instance with Node.js cluster (and nginx). (server.js) 
  - Conversion server - Other EC2 instance(s) focused both on CPU and RAM. (compress.js)
@@ -62,7 +64,7 @@ Caching should be extended to cache-aside/read through strategy with ttl expiry 
 
 Obviously the already existing user-management should be used also.
 
-### Development Environment
+## Development Environment
 
   - Windows 10
   - Redis on localhost
