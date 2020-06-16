@@ -16,12 +16,12 @@ The front-end uses the deployed backend api but I found it's best to deploy the 
 ## Overview
 The backend is built with Node.js and the front-end is built with React.js.
 The server is deployed on AWS Frankfurt region.
-The current architecture is a bit like **microservices**:
- - Fron-end/compression/file storage server - EC2 instance
-   - **API service**: recieves requests, dispatches conversion transactions and connects to database and cache
-   - **Compression service**: controls the compression binary process, writes to database and cache
- - Database - PostgreSQL RDS instance
- - Cache server - Redis ElastiCache instance
+The backend is follows a **microservices** architecture:
+ - Front-end + compression + file storage server - EC2 instance Node.js v12.16.3 (lts)
+   - **API service** - server.js - handles REST requests, dispatches conversion transactions and connects to database and cache
+   - **Compression service** - compress.js - controls the compression binary process, writes to database and cache to update conversion status
+ - Database - PostgreSQL 12. RDS instance
+ - Cache server - Redis 5.0.6 ElastiCache instance
 
 
 ### Binary stub
@@ -38,11 +38,12 @@ Stream processsing
 
 ## Modifications for real production
 The architecture should be microservice based.
- - Request server / front-end server - I suggest EC2 instance with node.js cluster (and nginx).
+ - Request server + front-end server - I suggest an EC2 instance with Node.js cluster (and nginx). (server.js) 
+ - Processing server - Other EC2 instance(s) focused both on CPU and RAM. (compress.js)
  - Cache server - I suggest Redis on AWS ElastiCache
  - Database server - I suggest PostgreSQL on RDS
  - Storage server - I suggest AWS S3 
- - Processing server - Other EC2 instance(s) focused both on CPU and RAM.
+
 
 Conversion should definitely be separate from the front-end server, because it is both CPU and RAM intensive, especially if the specified rate (100.000 requests/day) holds.
 
@@ -51,7 +52,7 @@ Conversion should definitely be separate from the front-end server, because it i
   - Windows 10
   - Redis on localhost
   - PostgreSQL on AWS
-  - Node.js v12.16.3 (stable)
+  - Node.js
   - Visual Studio Code
   - Git
 
