@@ -62,6 +62,7 @@ body .btnprimary {
   font-size: 1rem;
   font-weight: 700;
   height: auto;
+  line-height: normal;
 
   &:hover {
     background-color: #0099e9;
@@ -79,11 +80,13 @@ button.btnsecondary {
   border-radius: 6px;
   background-color: #fff;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.4);
+  border: 1px rgba(0, 0, 0, 0.1) solid;
   font-family: 'Sf pro text', sans-serif;
   color: #3c3c3c;
   font-size: 16px;
   font-weight: 700;
   height: auto;
+  line-height: normal;
 
   &:hover {
     background-color: #f4f7f9;
@@ -94,4 +97,19 @@ button.btnsecondary {
     background-color: #edf2f7;
   }
 
+}
+
+.convitem{
+  color: #333;
+  border: 1px rgba(0, 0, 0, 0.1) solid;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+  padding: 1rem 2rem;
+}
+
+.progressbar > div {
+  background-color: #00a7ff;
+  -webkit-transition: width 0.3s ease;
+  -o-transition: width 0.3 ease;
+  transition: width 0.3 ease;
 }

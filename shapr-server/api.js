@@ -13,10 +13,11 @@ const Database = require('./database');
 
 const multer = require('@koa/multer');
 var storage = multer.diskStorage({
-  destination: './files',
+  destination: function (req, file, cb) {
+    cb(null, './files')
+  },
   filename: function (req, file, cb) {
-    console.log(req)
-    cb(null, file.originalname)
+    cb(null, nanoid() + "." + file.originalname)
   }
 }
 );
@@ -30,7 +31,7 @@ router
   .post('/conversion', 
     async (ctx, next) => {
       let id = nanoid();
-      const rows = awaitDatabase.newConversion(id, 0, 0, "iges","hello.shapr", "bye.iges");
+      const rows = await Database.newConversion(id, 0, 0,ctx.request.body.targettype, null, null);
       if(rows.length>=1){
         ctx.ok(rows[0])
       } else {
@@ -38,21 +39,22 @@ router
       }
     })
   .get("/conversion/:id", async  (ctx, next) => {
-    const rows = awaitDatabase.getConversion(0, "5d2f3f2722e5b5e2b8b763d22547ae3c");
+    const rows = await Database.getConversion(0, ctx.params.id);
     if(rows.length>=1){
       ctx.ok(rows[0])
     } else {
       ctx.notFound('Conversion not found')
     }
-  }).post('/upload', upload.single('input'),
-  ctx => {
-    console.log('ctx.request.files', ctx.request.files);
-    console.log('ctx.files', ctx.files);
-    console.log('ctx.request.body', ctx.request.body);
-    ctx.body = 'done';
+  }).post('/upload', upload.single('file'),
+  async (ctx, next) => {
+    const rows = await Database.updateConversionInput(ctx.request.body.txid, ctx.request.file.filename);
+    if(rows.length>=1){
+      ctx.ok(rows[0])
+    } else {
+      ctx.notFound('Conversion not found')
+    }
   });
 
-const serve = require('koa-static');
-router.use('/files',  serve('./files'))
+
 
 module.exports = router;

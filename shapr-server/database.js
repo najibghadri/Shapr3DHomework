@@ -37,23 +37,35 @@ class Database {
     return knex(conversiontable)
       .insert({
         id: id,
-        user_id: userid,
         status: status,
         target_type: targettype,
         input_file: inputname,
         output_file: outputname,
         created_at: new Date(Date.now()).toISOString(), // with timezone, adjusted to UTC
+        finished_at: null,
+        user_id: userid,
       })
       .returning("*");
   }
 
-  static updateConversion(id, status) {
+  static updateConversionStatus(id, status) {
     return knex(conversiontable)
       .where({
         id: id,
       })
       .update({
         status: status,
+      })
+      .returning("*");
+  }
+
+  static updateConversionInput(id, inputname) {
+    return knex(conversiontable)
+      .where({
+        id: id,
+      })
+      .update({
+        input_file: inputname,
       })
       .returning("*");
   }

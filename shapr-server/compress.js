@@ -33,9 +33,9 @@ function compress(){
     
     child.on('close', function(code) {
         if(code === 0){
-            Database.updateConversion(id,2).then((rows) => console.log(rows))
+            Database.updateConversionStatus(id,2)
         } else {
-            Database.updateConversion(id,3).then((rows) => console.log(rows))
+            Database.updateConversionStatus(id,3)
         }
     
         console.log('closing code: ' + code);
@@ -43,7 +43,7 @@ function compress(){
     });
 }
 
-Database.updateConversion(id,1).then((rows) => { // In-progress
+Database.updateConversionStatus(id,1).then((rows) => { // In-progress
     compress()
 })
 
