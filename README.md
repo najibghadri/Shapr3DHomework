@@ -21,9 +21,9 @@ I assumed one user in the system, as user-management and auth were not required,
 The backend is built with Node.js and the front-end is built with React.js.
 The server is deployed on AWS Frankfurt region.
 The backend is follows a **microservices** architecture:
- - Front-end + compression + file storage server - EC2 instance Node.js v12.16.3 (lts)
+ - Front-end + Conversion + file storage server - EC2 instance Node.js v12.16.3 (lts)
    - **API service** - server.js - handles REST requests, dispatches conversion transactions and connects to database and cache
-   - **Compression service** - compress.js - controls the compression binary process, writes to database and cache to update conversion status
+   - **Conversion service** - convert.js - controls the conversion binary process, writes to database and cache to update conversion status
    - Storage - files are stored in a folder on this instance, the files are small stub files.
  - Database - PostgreSQL 12. RDS instance
  - Cache server - Redis 5.0.6 ElastiCache instance
@@ -60,7 +60,17 @@ I created the following simple REST api:
 ### Server
 
 Main packages used
- - 
+ - Koa and a lot of Koa middlewares - a much better webserver framework than Express
+ - ioredis - async Redis client
+ - knex - async query builder and migrations manager
+ - pino - verbose logger
+ - nanoid - very secure string generation
+
+There are two parts for the currrent server. The request server handles incoming requests and files and handles file serving, and in case of a conversion transaction request it spawns an **independent** node.js conversion process. Note, in production instead of using Node.js for the conversion control process a more lightweight process, sucha as a Go, would be prefect, which has faster spin-up speed and doesn't eat a lot of memory, like a V8 does. Conversion processes control and read the conversion binary (that is mocked/stubbed here). The conversion processes write updates to both Redis and Postgre and the request servers read/write data from/to there.
+
+Architecture
+
+
 
 ### Binary stub
 
@@ -86,46 +96,33 @@ Redis cache populated:
 
 
 
-### Deployment on localhost
-
-On AWS I had to reconfigure Nginx to host shapr server next to the [Quarantime.io](https://quarantime.io/) app server. The config file can be found. shapr-server/nginx.config.
-
-In order to deploy on localhost the following must be done:
- - Install PostgreSQL 12+
- - Install Redis (doesn't really matter which version, we only use set get)
- - Install Nodejs
-
 ### Scalability and fault tolerance
 
-The Node.js request server file does not hold state, thus it can be deployed in a cluster and the nodes are independent of each other and the ongoing conversion processes. The conversion processes are spawned by each server node upon request, and they update the conversion status to the database and cache database. If a conversion process fails that is written to the databases.
+The Node.js request server does not hold state, thus it can be deployed in a cluster, for example with pm2, and scaled out and the nodes are independent of each other and the ongoing conversion processes. The conversion processes are spawned by each server node upon request, and they update the conversion status to the database and cache database. If a conversion process fails that is written to the databases.
 
 Hence **the system is horizontally scalable** and the only centralized points are the databases which are easy to scale-out using replicas and clusters.
-
-Stream processsing
-
-### Logging
 
 ### Stress testing
 
 ## Modifications for real production
 The front-end server should be decomposed into request, processing and storage server:
  - Request server + front-end server - I suggest an EC2 instance with Node.js cluster (and nginx). (server.js) 
- - Conversion server - Other EC2 instance(s) focused both on CPU and RAM. (compress.js)
+ - Conversion server - Other EC2 instance(s) focused both on CPU and RAM. (convert.js)
  - File storage server - I suggest AWS S3 
 
-Conversion should be separate from the front-end server because it is both CPU and RAM intensive, especially if the specified rate (100.000 requests/day) holds.
+Conversion should be separate from the front-end server because it is both CPU and RAM intensive, especially if the specified rate (100.000 requests/day) holds. **Also instead of using Node.js for conversion dispatching another, more light-weight language should be used (a node V8 takes 30ms to spawn and eats 10mb memory at least)**. A Go service would be perefect.
 
- The database servers are good in the current system:
+The database servers are good in the current system:
  - Cache server - I suggest Redis on AWS ElastiCache
  - Database server - I suggest PostgreSQL on RDS
 
-Caching should be extended to cache-aside/read through strategy with ttl expiry to support efficient record retrival. This is fairly trivial to do from here.
-
-Obviously the already existing user-management should be used also.
+Caching should be extended to cache-aside/read through strategy with ttl expiry to support efficient record retrival. This is fairly trivial to do from here. And obviously the already existing user-management should be used too.
 
 ## Deployment
 
-On AWS I had to reconfigure Nginx to host shapr server next to the [Quarantime.io](https://quarantime.io/) app server. The config file can be found. shapr-server/nginx.config.
+On AWS I set up the smallest (500MB) free ElastiCache Redis instance and I already had a Postgresql instance and an EC2 instance. I used the local DB and Redis for testing and the RDS and ElastiCache for "production".
+
+I had to reconfigure Nginx to host shapr server next to the [Quarantime.io](https://quarantime.io/) app server. The config file can be found. shapr-server/nginx.config.
 
 ## Development Environment
 
@@ -139,9 +136,10 @@ On AWS I had to reconfigure Nginx to host shapr server next to the [Quarantime.i
   - Git
   - Testing: Advances REST client
 
-I used the local DB and Redis for testing and the RDS and ElastiCache for "production" in AWS.
-
 ### Deployment on localhost
 In order to deploy on localhost the following must be done:
- - Install PostgreSQL, Redis, Nodejs (version specified above, for redis it doesn't matter)
- - Execute shapr.sql on the
+ - Install PostgreSQL, Redis, Nodejs (version specified above, for redis it doesn't matter) and start the two DBs.
+ - Execute shapr.sql on postgre
+ - pm2 start server.js in /shapr-server
+ - npm start in /shapr-client
+ - Enjoy.

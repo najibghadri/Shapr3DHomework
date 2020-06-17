@@ -10,7 +10,7 @@ const redis = new Redis({
 const Database = require('./database');
 const logger = require("pino")({
     prettyPrint: { colorize: true, translateTime: true },
-    name: "compresscontrol"
+    name: "convertcontrol"
   });
 
 var spawn = require('child_process').spawn;
@@ -29,7 +29,7 @@ logger.info(output_file);
 
 let r = /\d+/;
 
-function compress(){
+function convert(){
     var child = spawn('node', ['./binary-stub.js', input_file, target, output_file] );
     var scriptOutput = "";
 
@@ -66,7 +66,7 @@ function compress(){
 }
 
 Database.updateConversion(id,1).then((rows) => { // In-progress
-    compress()
+    convert()
 })
 
 

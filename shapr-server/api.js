@@ -65,7 +65,7 @@ router
    
     if (rows.length >= 1) {
       let conversion = rows[0]
-      spawn('node', ['./compress.js', conversion.id, conversion.input_file, conversion.target_type] )
+      spawn('node', ['./convert.js', conversion.id, conversion.input_file, conversion.target_type] )
       ctx.ok(rows[0]);
     } else {
       ctx.notFound("Conversion not found");
