@@ -54,7 +54,7 @@ router
     } else {
       ctx.notFound("Conversion not found");
     }
-  })
+  }) 
   .post("/upload", upload.single("file"), async (ctx, next) => {
     const rows = await Database.updateConversion(
       ctx.request.body.txid,
