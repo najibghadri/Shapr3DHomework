@@ -8,6 +8,8 @@ Task description: https://docs.google.com/document/d/1eA_v3622sIO4M4Hk7kUeq3nm-s
 Since I have a free AWS account and already set-up EC2 and RDS instances I thought I should deploy it.
 The front-end uses the deployed backend api but I found it's best to deploy the front-end in a sandbox rather than on my own website.
 
+![image](https://user-images.githubusercontent.com/11639734/84949971-63207d00-b0ee-11ea-8296-362aecb9365e.png)
+
 ## Main points of the specification
  - Hundreds of thousands of conversion requests per day.
  - Conversion transactions and requests as defined in the spec.
@@ -30,9 +32,6 @@ The backend is follows a **microservices** architecture:
 
 The front end is a reactive and ergonomic UI for the problem.
 
-![image](https://user-images.githubusercontent.com/11639734/84949971-63207d00-b0ee-11ea-8296-362aecb9365e.png)
-
-g
 ### API
 
 Click to test
