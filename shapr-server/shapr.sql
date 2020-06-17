@@ -1,3 +1,5 @@
+CREATE DATABASE shapr;
+
 CREATE TABLE conversiontx (
     id varchar(32) primary key DEFAULT md5(random()::text),
     status smallint not null,

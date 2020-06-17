@@ -90,6 +90,11 @@ Redis cache populated:
 
 On AWS I had to reconfigure Nginx to host shapr server next to the [Quarantime.io](https://quarantime.io/) app server. The config file can be found. shapr-server/nginx.config.
 
+In order to deploy on localhost the following must be done:
+ - Install PostgreSQL 12+
+ - Install Redis (doesn't really matter which version, we only use set get)
+ - Install Nodejs
+
 ### Scalability and fault tolerance
 
 The Node.js request server file does not hold state, thus it can be deployed in a cluster and the nodes are independent of each other and the ongoing conversion processes. The conversion processes are spawned by each server node upon request, and they update the conversion status to the database and cache database. If a conversion process fails that is written to the databases.
@@ -118,6 +123,10 @@ Caching should be extended to cache-aside/read through strategy with ttl expiry 
 
 Obviously the already existing user-management should be used also.
 
+## Deployment
+
+On AWS I had to reconfigure Nginx to host shapr server next to the [Quarantime.io](https://quarantime.io/) app server. The config file can be found. shapr-server/nginx.config.
+
 ## Development Environment
 
   - Windows 10
@@ -130,4 +139,9 @@ Obviously the already existing user-management should be used also.
   - Git
   - Testing: Advances REST client
 
-There is no separate production and development PostgreSQL database, the RDS instance was used for testing and production. In production environment this is different obviously.
+I used the local DB and Redis for testing and the RDS and ElastiCache for "production" in AWS.
+
+### Deployment on localhost
+In order to deploy on localhost the following must be done:
+ - Install PostgreSQL, Redis, Nodejs (version specified above, for redis it doesn't matter)
+ - Execute shapr.sql on the
