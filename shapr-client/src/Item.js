@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/core";
 import axios from "axios";
 
-var endpoint = "http://localhost:3000/shapr";
+var endpoint = "https://quarantime.io/shapr";
 let timeout = null
 
 function Item(props) {
@@ -25,7 +25,6 @@ function Item(props) {
           );
           if (response.data.status === 0 || response.data.status === 1) {
             timeout = setTimeout(update, 1500);
-            console.log(props.conversion.status)
           }
         })
         .catch(function (error) {

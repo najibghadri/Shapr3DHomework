@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/core";
 import axios from "axios";
 
-var endpoint = "http://localhost:3000/shapr";
+var endpoint = "https://quarantime.io/shapr";
 
 function UploadForm(props) {
   const [file, setFile] = useState(null);

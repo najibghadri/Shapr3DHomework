@@ -12,7 +12,7 @@ import axios from "axios";
 import Item from './Item';
 import UploadForm from './UploadForm';
 
-var endpoint = "http://localhost:3000/shapr";
+var endpoint = "https://quarantime.io/shapr";
 
 function dateSort(a, b) {
   return new Date(b.created_at) - new Date(a.created_at);
@@ -65,6 +65,8 @@ function App() {
           break;
         case 3:
           failed[conversion.id] = conversion;
+          break;
+        default:
           break;
       }
     });
