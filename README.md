@@ -1,8 +1,6 @@
 # Shapr3D Conversion Service
 **Deployed application**: https://codesandbox.io/s/hungry-vaughan-49uno
 
-Shapr3D backend engineer homework job application made by Najib Ghadri.
-
 Task description: https://docs.google.com/document/d/1eA_v3622sIO4M4Hk7kUeq3nm-sn7cyXLxIpdvwr2faE
 
 Since I have a free AWS account and already set-up EC2 and RDS instances, and my app domain [Quarantime.io](https://quarantime.io/) I thought I should deploy it.
