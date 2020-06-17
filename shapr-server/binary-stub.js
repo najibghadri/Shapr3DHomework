@@ -25,7 +25,7 @@ var timeout = setTimeout(() => {
 }, 30000);
 
 function fakework() {
-  setTimeout(() => {
+  setTimeout(() => { 
     if (progress !== 100) {
       if(goinToFail && progress === 60) throw Error("Conversion failed");
       console.log("progress: %d%", progress);
@@ -36,7 +36,7 @@ function fakework() {
       fs.writeFile(output + "." + type, "data", (err) => {
         if (err) throw err;
       });
-      clearTimeout(timeout)
+      clearTimeout(timeout) 
       return;
     }
   }, (Math.floor(Math.random() * 2) + 0.5) *1000  );
