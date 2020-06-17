@@ -60,7 +60,7 @@ function App() {
         case 1:
           inprogress[conversion.id] = conversion;
           break;
-        case 2:
+        case 2: 
           completed[conversion.id] = conversion;
           break;
         case 3:
