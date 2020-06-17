@@ -12,6 +12,12 @@ var knex = require("knex")({
   },
 });
 
+const Redis = require("ioredis");
+const redis = new Redis({
+  host: process.env.RD_HOST,
+  port: process.env.RD_PORT,
+});
+
 let conversiontable = "conversiontx";
 
 class Database {
@@ -24,13 +30,23 @@ class Database {
       .select("*");
   }
 
-  static getConversion(userid, conversionid) {
-    return knex(conversiontable)
+  static async getConversion(userid, conversionid) {
+    let rows = await knex(conversiontable)
       .where({
         user_id: userid,
         id: conversionid,
       })
       .select("*");
+
+    if (rows.length >= 1) {
+      let row = rows[0];
+      return redis.get(row.id).then((progress) => {
+        row.progress = progress;
+        return row;
+      });
+    } else {
+      throw Error("Conversion not found");
+    }
   }
 
   static newConversion(id, userid, status, targettype, inputname, outputname) {

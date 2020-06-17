@@ -65,10 +65,10 @@ Upload a file to a conversion : `POST /shapr/upload/`
 
 ### Database
 
-I avoid file naming collisions by using the transaction id in the name of the uploaded and converted output files.
+I use the transaction id to create folders and put the input and output file of each conversion into thus avoiding collisions and keeping it secure. 
 
-The conversion tx ID (txid) is generated on Node, with the performant [nanoid](https://github.com/ai/nanoid) library. The alphabet is "123456789abcdefghijklmnopqrstuvwxyz"
-and the length is 32 characters, which gives 1%/~23 trillions years chance of collision under 1000 IDs/second frequency ([ref](https://alex7kom.github.io/nano-nanoid-cc/?alphabet=123456789abcdefghijklmnopqrstuvwxyz&size=32&speed=1000&speedUnit=second)).
+The conversion tx ID (txid) is generated on Node, with the performant [nanoid](https://github.com/ai/nanoid) library. The alphabet is 42 character long
+and the length of an ID is 32 characters, which gives 1%/~23 trillions years chance of collision under 1000 IDs/second frequency ([ref](https://alex7kom.github.io/nano-nanoid-cc/?alphabet=123456789abcdefghijklmnopqrstuvwxyz&size=32&speed=1000&speedUnit=second)).
 
 The schema is defined in shapr-server/shapr.sql
 I use the well-tested knex.js library for database connection. Knex allows migrations and and seed based table generation, important for production. 

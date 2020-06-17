@@ -10,9 +10,11 @@ import {
 import axios from "axios";
 
 var endpoint = "http://localhost:3000/shapr";
+let timeout = null
 
 function Item(props) {
   useEffect(() => {
+    
     const update = () => {
       axios
         .get(endpoint + "/conversion/" + props.conversion.id)
@@ -23,7 +25,8 @@ function Item(props) {
             })
           );
           if (response.data.status === 0 || response.data.status === 1) {
-            setTimeout(update, 1000);
+            timeout = setTimeout(update, 1500);
+            console.log(props.conversion.status)
           }
         })
         .catch(function (error) {
@@ -34,6 +37,10 @@ function Item(props) {
 
     if (props.conversion.status === 0 || props.conversion.status === 1) {
       update();
+    }
+
+    return () => {
+        clearTimeout(timeout)
     }
   }, []);
 
@@ -104,7 +111,7 @@ function Item(props) {
         <Progress
           mt="1rem"
           className="progressbar"
-          value={80}
+          value={props.conversion.progress ? props.conversion.progress : 0}
           hasStripe
           isAnimated
         />

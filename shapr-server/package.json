@@ -26,6 +26,7 @@
     "@koa/multer": "^3.0.0",
     "@koa/router": "^9.0.1",
     "dotenv": "^8.2.0",
+    "ioredis": "^4.17.3",
     "knex": "^0.21.1",
     "koa": "^2.12.1",
     "koa-bodyparser": "^4.3.0",

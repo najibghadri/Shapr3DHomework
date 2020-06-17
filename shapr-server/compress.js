@@ -1,4 +1,11 @@
 const path = require("path");
+require("dotenv").config({ path: ".env" });
+
+const Redis = require("ioredis");
+const redis = new Redis({
+    host: process.env.RD_HOST,
+    port: process.env.RD_PORT
+});
 
 const Database = require('./database');
 const logger = require("pino")({
@@ -20,6 +27,8 @@ var output_file = "./files/" + id + "/" + basename
 logger.info(input_file);
 logger.info(output_file);
 
+let r = /\d+/;
+
 function compress(){
     var child = spawn('node', ['./binary-stub.js', input_file, target, output_file] );
     var scriptOutput = "";
@@ -28,6 +37,7 @@ function compress(){
     child.stdout.on('data', function(data) {
         logger.info('stdout: ' + data);
 
+        redis.set(id,data.match(r));
     
         data=data.toString();
         scriptOutput+=data;

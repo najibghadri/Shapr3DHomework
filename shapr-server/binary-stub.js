@@ -20,6 +20,10 @@ if(!fs.existsSync(input)) throw Error("Input file not found");
 
 var progress = 0;
 
+var timeout = setTimeout(() => {
+  process.exit()
+}, 30000);
+
 function fakework() {
   setTimeout(() => {
     if (progress !== 100) {
@@ -32,6 +36,7 @@ function fakework() {
       fs.writeFile(output + "." + type, "data", (err) => {
         if (err) throw err;
       });
+      clearTimeout(timeout)
       return;
     }
   }, (Math.floor(Math.random() * 2) + 0.5) *1000  );

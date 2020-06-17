@@ -48,9 +48,9 @@ router
     }
   })
   .get("/conversion/:id", async (ctx, next) => {
-    const rows = await Database.getConversion(0, ctx.params.id);
-    if (rows.length >= 1) {
-      ctx.ok(rows[0]);
+    const row = await Database.getConversion(0, ctx.params.id);
+    if (row) {
+      ctx.ok(row);
     } else {
       ctx.notFound("Conversion not found");
     }
