@@ -6,7 +6,7 @@ CREATE TABLE conversiontx (
     output_file varchar(255),
     created_at timestamptz not null,
 	finished_at timestamptz,
-    user_id bigint not null
+    user_id bigint not null 
 );
 
 CREATE UNIQUE INDEX conversion_idx ON conversiontx (id);
