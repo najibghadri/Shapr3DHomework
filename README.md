@@ -1,4 +1,6 @@
 # Shapr3D Conversion Service
+**Deployed application**: https://codesandbox.io/s/hungry-vaughan-49uno
+
 Shapr3D backend engineer homework job application made by Najib Ghadri.
 
 Task description: https://docs.google.com/document/d/1eA_v3622sIO4M4Hk7kUeq3nm-sn7cyXLxIpdvwr2faE
@@ -6,14 +8,12 @@ Task description: https://docs.google.com/document/d/1eA_v3622sIO4M4Hk7kUeq3nm-s
 Since I have a free AWS account and already set-up EC2 and RDS instances I thought I should deploy it.
 The front-end uses the deployed backend api but I found it's best to deploy the front-end in a sandbox rather than on my own website.
 
-**Deployed application**: https://codesandbox.io/s/hungry-vaughan-49uno
-
-
 ## Main points of the specification
  - Hundreds of thousands of conversion requests per day.
  - Conversion transactions and requests as defined in the spec.
  - Appealing and usable UI.
  - High performance, scalability and fault tolerance.
+ - Converter binary is given but has to be stubbed.
 
 I assumed one user in the system, as user-management and auth were not required, but this can easily be extended to multi-user.
 
@@ -24,7 +24,7 @@ The backend is follows a **microservices** architecture:
  - Front-end + compression + file storage server - EC2 instance Node.js v12.16.3 (lts)
    - **API service** - server.js - handles REST requests, dispatches conversion transactions and connects to database and cache
    - **Compression service** - compress.js - controls the compression binary process, writes to database and cache to update conversion status
-   - Storage - files are stored in a folder on this instance, the files are small stub files with random data.
+   - Storage - files are stored in a folder on this instance, the files are small stub files.
  - Database - PostgreSQL 12. RDS instance
  - Cache server - Redis 5.0.6 ElastiCache instance
 
@@ -34,7 +34,20 @@ Main packages used
 
 ### Binary stub
 
-### Deployment
+
+### Database
+
+I avoid file naming collisions by using the transaction id in the name of the uploaded and converted output files.
+
+The conversion tx ID is generated on Node, with the performant [nanoid](https://github.com/ai/nanoid) library. The alphabet is "123456789abcdefghijklmnopqrstuvwxyz"
+and the length is 32 characters, which gives 1%/~23 trillions years chance of collision under 1000 IDs/second frequency ([ref](https://alex7kom.github.io/nano-nanoid-cc/?alphabet=123456789abcdefghijklmnopqrstuvwxyz&size=32&speed=1000&speedUnit=second)).
+
+The schema is defined in shapr-server/shapr.sql
+I use the well-tested knex.js library for database connection. Knex allows migrations and and seed based table generation, important for production. 
+
+### Deployment on localhost
+
+On AWS I had to reconfigure Nginx to host shapr server next to my Quarantime.io app server. The config file can be found. shapr-server/nginx.config.
 
 ### Scalability and fault tolerance
 
@@ -46,7 +59,7 @@ Stream processsing
 
 ### Logging
 
-### Performance testing
+### Stress testing
 
 ## Modifications for real production
 The front-end server should be decomposed into request, processing and storage server:

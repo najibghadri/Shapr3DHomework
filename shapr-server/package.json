@@ -20,5 +20,18 @@
   "homepage": "https://github.com/najibghadri/Shapr3DHomework#readme",
   "devDependencies": {
     "redis-cli": "^1.4.0"
+  },
+  "dependencies": {
+    "@koa/router": "^9.0.1",
+    "dotenv": "^8.2.0",
+    "knex": "^0.21.1",
+    "koa": "^2.12.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-pino-logger": "^3.0.0",
+    "koa-respond": "^2.1.0",
+    "nanoid": "^3.1.10",
+    "pg": "^8.2.1",
+    "pino": "^6.3.2",
+    "pino-pretty": "^4.0.0"
   }
 }
