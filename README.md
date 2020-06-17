@@ -66,20 +66,23 @@ Main packages used
  - pino - verbose logger
  - nanoid - very secure string generation
 
-There are two parts for the currrent server. The request server handles incoming requests and files and handles file serving, and in case of a conversion transaction request it spawns an **independent** node.js conversion process. Note, in production instead of using Node.js for the conversion control process a more lightweight process, sucha as a Go, would be prefect, which has faster spin-up speed and doesn't eat a lot of memory, like a V8 does. Conversion processes control and read the conversion binary (that is mocked/stubbed here). The conversion processes write updates to both Redis and Postgre and the request servers read/write data from/to there.
+There are two parts for the currrent server. The request server handles incoming requests and files and handles file serving, and in case of a conversion transaction request it spawns an **independent** node.js conversion process. **Note**, in production instead of using Node.js for the conversion control process a more lightweight process, sucha as a Go, would be prefect, which has faster spin-up speed and doesn't eat a lot of memory, like a V8 does. Conversion processes control and read the conversion binary (that is mocked/stubbed here). The conversion processes write updates to both Redis and Postgre and the request servers read/write data from/to there.
 
 Architecture:
 ![image](https://user-images.githubusercontent.com/11639734/84956013-a384f880-b0f8-11ea-9bc3-ccb545afe92a.png)
 
-
-
 ### Binary stub
 
-Creating the binary mock was an interesting task. I 
+Creating the binary mock was an interesting task. I followed the task deskription and created a javascript file that takes as input an .shapr file a supported target filetype and the output file name. It does error checking, and fails on an invalid argument. Then writes to the stdout the specified string, increasing the progress percent **randomy** by 10% in intervals between 0.5 and 2 seconds, simulating a longer process. In order to simulate a failing conversion, if you name the input file fail.shapr, it will fail at 60%. :)
+
+Invokation example:
+```
+node .\binary-stub.js ./files/3847238423872384.hello.shapr iges ./files/3847238423872384.hello
+```
 
 ### Database, cache and storage
 
-I use the transaction id to create folders and put the input and output file of each conversion into thus avoiding collisions and keeping it secure. 
+I use the transaction id to create folders and put the input and output file of each conversion into sthem, avoiding collisions and keeping it secure and simple. 
 
 The conversion tx ID (txid) is generated on Node, with the performant [nanoid](https://github.com/ai/nanoid) library. The alphabet is 42 character long
 and the length of an ID is 32 characters, which gives 1%/~23 trillions years chance of collision under 1000 IDs/second frequency ([ref](https://alex7kom.github.io/nano-nanoid-cc/?alphabet=123456789abcdefghijklmnopqrstuvwxyz&size=32&speed=1000&speedUnit=second)).
@@ -99,7 +102,7 @@ Redis cache populated:
 
 ### Scalability and fault tolerance
 
-The Node.js request server does not hold state, thus it can be deployed in a cluster, for example with pm2, and scaled out and the nodes are independent of each other and the ongoing conversion processes. The conversion processes are spawned by each server node upon request, and they update the conversion status to the database and cache database. If a conversion process fails that is written to the databases.
+The Node.js request server does not hold state, thus it can be deployed in a cluster, for example with pm2, and scaled out and the nodes are independent of each other and the ongoing conversion processes. The conversion processes are spawned by each server node upon request, and they update the conversion status to the database and cache database. The conversion processes should not be Node.js rather Go or something similarly lighterweight. If a conversion process fails that is written to the databases.
 
 Hence **the system is horizontally scalable** and the only centralized points are the databases which are easy to scale-out using replicas and clusters.
 
