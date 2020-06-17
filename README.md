@@ -5,8 +5,8 @@ Shapr3D backend engineer homework job application made by Najib Ghadri.
 
 Task description: https://docs.google.com/document/d/1eA_v3622sIO4M4Hk7kUeq3nm-sn7cyXLxIpdvwr2faE
 
-Since I have a free AWS account and already set-up EC2 and RDS instances I thought I should deploy it.
-The front-end uses the deployed backend api but I found it's best to deploy the front-end in a sandbox rather than on my own website.
+Since I have a free AWS account and already set-up EC2 and RDS instances, and my app domain [Quarantime.io](https://quarantime.io/) I thought I should deploy it.
+The front-end uses the deployed backend api but I found it's the best to show you the front-end in a cloudsandbox.
 
 ![image](https://user-images.githubusercontent.com/11639734/84949971-63207d00-b0ee-11ea-8296-362aecb9365e.png)
 
@@ -61,11 +61,14 @@ Upload a file to a conversion : `POST /shapr/upload/`
 
 ### Server
 
- - Main packages used
+Main packages used
+ - 
 
 ### Binary stub
 
-### Database
+Creating the binary mock was an interesting task. I 
+
+### Database, cache and storage
 
 I use the transaction id to create folders and put the input and output file of each conversion into thus avoiding collisions and keeping it secure. 
 
@@ -75,13 +78,19 @@ and the length of an ID is 32 characters, which gives 1%/~23 trillions years cha
 The schema is defined in shapr-server/shapr.sql
 I use the well-tested knex.js library for database connection. Knex allows migrations and and seed based table generation, important for production. 
 
-### Storage
+This is how the schema looks:
+![image](https://user-images.githubusercontent.com/11639734/84951667-0bcfdc00-b0f1-11ea-9a19-edfed7dba523.png)
 
-For each conversion a folder is created with the txid
+The cache server is simply used to store and retrieve the progress of each transaction rapidly. It's a very simple hash store.
+
+Redis cache populated:
+![image](https://user-images.githubusercontent.com/11639734/84951762-2f932200-b0f1-11ea-8d39-6302eaf5d8f1.png)
+
+
 
 ### Deployment on localhost
 
-On AWS I had to reconfigure Nginx to host shapr server next to my Quarantime.io app server. The config file can be found. shapr-server/nginx.config.
+On AWS I had to reconfigure Nginx to host shapr server next to the [Quarantime.io](https://quarantime.io/) app server. The config file can be found. shapr-server/nginx.config.
 
 ### Scalability and fault tolerance
 
@@ -116,6 +125,8 @@ Obviously the already existing user-management should be used also.
   - Windows 10
   - Redis on localhost
   - PostgreSQL on AWS
+  - pgAdmin client for Postgre
+  - RedisInsight client for Redis
   - Node.js
   - Visual Studio Code
   - Git
