@@ -22,8 +22,8 @@ The backend is built with Node.js and the front-end is built with React.js.
 The server is deployed on AWS Frankfurt region.
 The backend is follows a **microservices** architecture:
  - Front-end + Conversion + file storage server - EC2 instance Node.js v12.16.3 (lts)
-   - **API service** - server.js - handles REST requests, dispatches conversion transactions and connects to database and cache
-   - **Conversion service** - convert.js - controls the conversion binary process, writes to database and cache to update conversion status
+   - **API service** - */shapr-server/server.js* - handles REST requests, dispatches conversion transactions and connects to database and cache
+   - **Conversion service** - */shapr-server/convert.js* - controls the conversion binary process, writes to database and cache to update conversion status
    - Storage - files are stored in a folder on this instance, the files are small stub files.
  - Database - PostgreSQL 12. RDS instance
  - Cache server - Redis 5.0.6 ElastiCache instance
@@ -85,8 +85,7 @@ node .\binary-stub.js ./files/3847238423872384.hello.shapr iges ./files/38472384
 I use the transaction id to create folders and put the input and output file of each conversion into sthem, avoiding collisions and keeping it secure and simple. 
 
 The conversion tx ID (txid) is generated on Node, with the performant [nanoid](https://github.com/ai/nanoid) library. The alphabet is 42 character long
-and the length of an ID is 32 characters, which gives 1%/~23 trillions years chance of collision under 1000 IDs/second frequency ([ref](https://alex7kom.github.io/nano-nanoid-cc/?alphabet=123456789abcdefghijklmnopqrstuvwxyz&size=32&speed=1000&speedUnit=second)).
-
+and the length of an ID is 32 characters, which gives 1%/~23 trillions years chance of collision under 1000 IDs/second frequency ([ref](https://alex7kom.github.io/nano-nanoid-cc/?alphabet=123456789abcdefghijklmnopqrstuvwxyz&size=32&speed=1000&speedUnit=second)). I used a B-Tree index on the conversiontx id and user_id due to the nature of our requests.
 The schema is defined in shapr-server/shapr.sql
 I use the well-tested knex.js library for database connection. Knex allows migrations and and seed based table generation, important for production. 
 
@@ -108,25 +107,24 @@ Hence **the system is horizontally scalable** and the only centralized points ar
 
 ### Stress testing
 
-I decied to use Linux cURL for testing. It is written in C, it's low level and gives accurate results. I tested on the two main endpoints:
-
+I tested these on my own machine which has almost the same specs as the t2.micro instance I have on AWS (except of course the OS, where Windows is a disadvantage)
 Getting a list of all conversions for a user:
+Testfile: *shapr-server/test/test.js*
 
-`GET /shapr/conversion/` : Get all conversions for a user
+10.000 `GET /shapr/conversion/` requests (Get all conversions for a user):
 
-
+`7989 milliseconds` which gives `1252 request/second` GET ALL performance on my machine.
 
 Initiating new conversions:
 
-`POST /shapr/conversion/`: Create a new conversion transaction
+10.000 `POST /shapr/conversion/`: Create a new conversion transaction
 
-`POST /shapr/upload/`: Upload a file to a conversion
-
+`21089 milliseconds` which gives `474 request/second` performance on my machine. This is without uploading and spawning conversion servces. Those shold be in a different machine.
 
 ## Modifications for real production
 The front-end server should be decomposed into request, processing and storage server:
- - Request server + front-end server - I suggest an EC2 instance with Node.js cluster (and nginx). (server.js) 
- - Conversion server - Other EC2 instance(s) focused both on CPU and RAM. (convert.js)
+ - Request server + front-end server - I suggest an EC2 instance with Node.js cluster (and nginx). (*server.js*) 
+ - Conversion server - Other EC2 instance(s) focused both on CPU and RAM. (*convert.js*)
  - File storage server - I suggest AWS S3 
 
 Conversion should be separate from the front-end server because it is both CPU and RAM intensive, especially if the specified rate (100.000 requests/day) holds. **Also instead of using Node.js for conversion dispatching another, more light-weight language should be used (a node V8 takes 30ms to spawn and eats 10mb memory at least)**. A Go service would be perefect.
