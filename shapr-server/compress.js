@@ -4,7 +4,7 @@ require("dotenv").config({ path: ".env" });
 const Redis = require("ioredis");
 const redis = new Redis({
     host: process.env.RD_HOST,
-    port: process.env.RD_PORT
+    port: process.env.RD_PORT 
 });
 
 const Database = require('./database');
