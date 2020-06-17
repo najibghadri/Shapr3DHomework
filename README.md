@@ -34,13 +34,13 @@ The front end is a reactive and ergonomic UI for the problem.
 
 ### API
 
-Click to test
+I created the following simple REST api:
 
-[Get all conversions for a user]() : `GET /shapr/conversion/`
+`GET /shapr/conversion/` : Get all conversions for a user
 
-[Get a conversion transaction by ID]() : `GET /shapr/conversion/:id/`
+`GET /shapr/conversion/:id/`: Get a conversion transaction by ID
 
-Create a new conversion transaction : `POST /shapr/conversion/`
+`POST /shapr/conversion/`: Create a new conversion transaction
 
 ```formdata
 {
@@ -48,7 +48,7 @@ Create a new conversion transaction : `POST /shapr/conversion/`
 }
 ```
 
-Upload a file to a conversion : `POST /shapr/upload/`
+`POST /shapr/upload/`: Upload a file to a conversion
 ```formdata
 {
     file: File,
@@ -56,7 +56,7 @@ Upload a file to a conversion : `POST /shapr/upload/`
 }
 ```
 
-[Download a file]() : `GET /shapr/files/:filename/`
+`GET /shapr/files/:filename/`: Download a file 
 
 
 ### Server
