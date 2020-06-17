@@ -28,22 +28,54 @@ The backend is follows a **microservices** architecture:
  - Database - PostgreSQL 12. RDS instance
  - Cache server - Redis 5.0.6 ElastiCache instance
 
+The front end is a reactive and ergonomic UI for the problem.
+
+### API
+
+Click to test
+
+[Get all conversions for a user]() : `GET /shapr/conversion/`
+
+[Get a conversion transaction by ID]() : `GET /shapr/conversion/:id/`
+
+Create a new conversion transaction : `POST /shapr/conversion/`
+
+```formdata
+{
+  targettype: [step|iges|stl|obj]
+}
+```
+
+Upload a file to a conversion : `POST /shapr/upload/`
+```formdata
+{
+    file: File,
+    txid: conversion transaction id
+}
+```
+
+[Download a file]() : `GET /shapr/files/:filename/`
+
+
 ### Server
-Main packages used
- - 
+
+ - Main packages used
 
 ### Binary stub
-
 
 ### Database
 
 I avoid file naming collisions by using the transaction id in the name of the uploaded and converted output files.
 
-The conversion tx ID is generated on Node, with the performant [nanoid](https://github.com/ai/nanoid) library. The alphabet is "123456789abcdefghijklmnopqrstuvwxyz"
+The conversion tx ID (txid) is generated on Node, with the performant [nanoid](https://github.com/ai/nanoid) library. The alphabet is "123456789abcdefghijklmnopqrstuvwxyz"
 and the length is 32 characters, which gives 1%/~23 trillions years chance of collision under 1000 IDs/second frequency ([ref](https://alex7kom.github.io/nano-nanoid-cc/?alphabet=123456789abcdefghijklmnopqrstuvwxyz&size=32&speed=1000&speedUnit=second)).
 
 The schema is defined in shapr-server/shapr.sql
 I use the well-tested knex.js library for database connection. Knex allows migrations and and seed based table generation, important for production. 
+
+### Storage
+
+For each conversion a folder is created with the txid
 
 ### Deployment on localhost
 

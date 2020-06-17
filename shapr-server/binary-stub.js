@@ -6,6 +6,8 @@ var type = process.argv[3];
 var output = process.argv[4];
 
 var basename = path.basename(input, path.extname(input));
+console.log(basename)
+console.log(output)
 var goinToFail = basename.includes("fail")
 
 if (path.extname(input) !== ".shapr") throw Error("Input file type not supported");
@@ -13,6 +15,8 @@ if (path.extname(input) !== ".shapr") throw Error("Input file type not supported
 var types = ["step", "iges", "stl", "obj"]
 
 if(!types.includes(type)) throw Error("Output type not supported");
+
+if(!fs.existsSync(input)) throw Error("Input file not found");
 
 var progress = 0;
 
@@ -25,7 +29,7 @@ function fakework() {
       fakework()
     } else {
       console.log("progress: %d%", progress);
-      fs.writeFile(path.dirname(input) + "/" + output + "." + type, "data", (err) => {
+      fs.writeFile(output + "." + type, "data", (err) => {
         if (err) throw err;
       });
       return;

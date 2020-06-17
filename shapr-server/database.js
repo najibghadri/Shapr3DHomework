@@ -48,24 +48,16 @@ class Database {
       .returning("*");
   }
 
-  static updateConversionStatus(id, status) {
+  static updateConversion(id, status, input_file, output_file) {
     return knex(conversiontable)
       .where({
         id: id,
       })
       .update({
         status: status,
-      })
-      .returning("*");
-  }
-
-  static updateConversionInput(id, inputname) {
-    return knex(conversiontable)
-      .where({
-        id: id,
-      })
-      .update({
-        input_file: inputname,
+        input_file: input_file,
+        output_file: output_file,
+        finished_at: new Date(Date.now()).toISOString(),
       })
       .returning("*");
   }
