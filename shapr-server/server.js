@@ -6,18 +6,19 @@ const logger = require("pino")({
   prettyPrint: { colorize: true, translateTime: true },
   name: "server"
 });
-const httpLogger = require("koa-pino-logger")({
-  prettyPrint: { colorize: true, translateTime: true }
-});
 
 const Koa = require("koa");
 const app = new Koa();
 
-const respond = require("koa-respond");
-var bodyParser = require("koa-bodyparser");
-
+const httpLogger = require("koa-pino-logger")({
+  prettyPrint: { colorize: true, translateTime: true }
+});
 app.use(httpLogger);
+
+const respond = require("koa-respond");
 app.use(respond());
+
+var bodyParser = require("koa-bodyparser");
 app.use(
   bodyParser({
     jsonLimit: "2kb",
@@ -25,7 +26,6 @@ app.use(
 );
 
 const apiRouter = require("./api");
-
 app.use(apiRouter.routes());
 app.use(apiRouter.allowedMethods());
 

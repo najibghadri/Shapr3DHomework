@@ -1,0 +1,97 @@
+/** Regular */
+@font-face {
+  font-family: "San Francisco";
+  font-weight: 400;
+  src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
+}
+
+/** Medium */
+@font-face {
+  font-family: "San Francisco";
+  font-weight: 500;
+  src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-medium-webfont.woff");
+}
+
+/** Semi Bold */
+@font-face {
+  font-family: "San Francisco";
+  font-weight: 600;
+  src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-semibold-webfont.woff");
+}
+
+/** Bold */ 
+@font-face {
+  font-family: "San Francisco";
+  font-weight: 700;
+  src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-bold-webfont.woff");
+}
+
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.secondary {
+  color: rgba(51, 51, 51, 0.6);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.darktxt {
+  color: #333;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.upload-button {
+  display: inline-block;
+  cursor: pointer;
+}
+
+body .btnprimary {
+  padding: 15px 24px;
+  border-radius: 6px;
+  background-color: #00a7ff;
+  box-shadow: 0 1px 1px 0 #006179;
+  font-family: 'Sf pro text', sans-serif;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  height: auto;
+
+  &:hover {
+    background-color: #0099e9;
+  }
+
+
+  &:active {
+    background-color: #00a7ff;
+  }
+
+}
+
+button.btnsecondary {
+  padding: 15px 24px;
+  border-radius: 6px;
+  background-color: #fff;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.4);
+  font-family: 'Sf pro text', sans-serif;
+  color: #3c3c3c;
+  font-size: 16px;
+  font-weight: 700;
+  height: auto;
+
+  &:hover {
+    background-color: #f4f7f9;
+  }
+
+
+  &:active {
+    background-color: #edf2f7;
+  }
+
+}

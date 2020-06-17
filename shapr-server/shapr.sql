@@ -2,7 +2,7 @@ CREATE TABLE conversiontx (
     id varchar(32) primary key DEFAULT md5(random()::text),
     status smallint not null,
 	target_type varchar(10) not null,
-    input_file varchar(255) not null,
+    input_file varchar(255),
     output_file varchar(255),
     created_at timestamptz not null,
 	finished_at timestamptz,
