@@ -4,7 +4,7 @@ require("dotenv").config({ path: ".env" });
 var knex = require("knex")({
   client: "pg",
   version: process.env.PG_VERSION,
-  connection: {
+  connection: { 
     host: process.env.PG_HOST,
     user: process.env.PG_USER,
     password: process.env.PG_PASS,
