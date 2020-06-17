@@ -108,6 +108,21 @@ Hence **the system is horizontally scalable** and the only centralized points ar
 
 ### Stress testing
 
+I decied to use Linux cURL for testing. It is written in C, it's low level and gives accurate results. I tested on the two main endpoints:
+
+Getting a list of all conversions for a user:
+
+`GET /shapr/conversion/` : Get all conversions for a user
+
+
+
+Initiating new conversions:
+
+`POST /shapr/conversion/`: Create a new conversion transaction
+
+`POST /shapr/upload/`: Upload a file to a conversion
+
+
 ## Modifications for real production
 The front-end server should be decomposed into request, processing and storage server:
  - Request server + front-end server - I suggest an EC2 instance with Node.js cluster (and nginx). (server.js) 
@@ -130,7 +145,7 @@ I had to reconfigure Nginx to host shapr server next to the [Quarantime.io](http
 
 ## Development Environment
 
-  - Windows 10
+  - Windows 10 and Ubuntu 19 ( for curl testing)
   - Redis on localhost
   - PostgreSQL on AWS
   - pgAdmin client for Postgre
