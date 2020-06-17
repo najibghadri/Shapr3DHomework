@@ -30,7 +30,7 @@ The backend is follows a **microservices** architecture:
 
 The front end is a reactive and ergonomic UI for the problem.
 
-![image](https://user-images.githubusercontent.com/11639734/84949971-63207d00-b0ee-11ea-8296-362aecb9365e.pn)
+![image](https://user-images.githubusercontent.com/11639734/84949971-63207d00-b0ee-11ea-8296-362aecb9365e.png)
 
 g
 ### API
