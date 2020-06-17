@@ -12,7 +12,7 @@ import {
 
 const customTheme = {
   ...theme,
-  colors: {
+  colors: { 
     ...theme.colors,
     brand: {
       900: "#00a7ff",

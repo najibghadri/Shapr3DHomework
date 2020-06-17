@@ -21,7 +21,7 @@ function Item(props) {
           props.setConversions((conversions) =>
             Object.assign({}, conversions, {
               [response.data.id]: response.data,
-            })
+            }) 
           );
           if (response.data.status === 0 || response.data.status === 1) {
             timeout = setTimeout(update, 1500);
