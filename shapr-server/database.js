@@ -61,7 +61,7 @@ class Database {
         finished_at: null,
         user_id: userid,
       })
-      .returning("*");
+      .returning("*"); 
   }
 
   static updateConversion(id, status, input_file, output_file) {
