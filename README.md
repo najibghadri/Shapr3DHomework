@@ -20,7 +20,7 @@ I assumed one user in the system, as user-management and auth were not required,
 ## Overview
 The backend is built with Node.js and the front-end is built with React.js.
 The server is deployed on AWS Frankfurt region.
-The backend is follows a **microservices** architecture:
+The backend follows a **microservices** architecture:
  - Front-end + Conversion + file storage server - EC2 instance Node.js v12.16.3 (lts)
    - **API service** - */shapr-server/server.js* - handles REST requests, dispatches conversion transactions and connects to database and cache
    - **Conversion service** - */shapr-server/convert.js* - controls the conversion binary process, writes to database and cache to update conversion status
