@@ -1,5 +1,5 @@
 # Shapr3D Conversion Service
-**Deployed application**: https://codesandbox.io/s/hungry-vaughan-49uno (Note: files wont't be downloaded in the sandbox, instead open the file link in a new tab.)
+**Deployed application**: https://codesandbox.io/s/hungry-vaughan-49uno (Note: files won't be downloaded in the sandbox, instead open the file link in a new tab.)
 
 Task description: https://docs.google.com/document/d/1eA_v3622sIO4M4Hk7kUeq3nm-sn7cyXLxIpdvwr2faE
 
