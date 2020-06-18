@@ -142,7 +142,7 @@ The front-end server should be decomposed into request, processing and storage s
  - Conversion server - Other EC2 instance(s) focused both on CPU and RAM with Go (or similar in perf and development speed) services for conversion.
  - File storage server - I suggest AWS S3 
 
-Conversion should be separate from the front-end server because it is both CPU and RAM intensive, especially if the specified rate (100.000 requests/day) holds. **Also instead of using Node.js for conversion dispatching another, more light-weight language should be used (a node V8 takes 30ms to spawn and eats 10mb memory at least)**. A Go service would be perefect.
+Conversion should be separate from the front-end server because it is both CPU and RAM intensive, especially if the specified rate (100.000 requests/day) holds. **Also instead of using Node.js for conversion service, another more light-weight language should be used (a node V8 takes 30ms to spawn and eats 10mb memory at least)**. A Go service would be perefect.
 
 The database servers are good in the current system:
  - Cache server - I suggest Redis on AWS ElastiCache
