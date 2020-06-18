@@ -37,7 +37,6 @@ I created the following simple REST api:
 `GET /shapr/conversion/` : Get all conversions for a user
 
 `GET /shapr/conversion/:id/`: Get a conversion transaction by ID
-Sample output
 ```
   created_at: "2020-06-17T20:56:24.539Z"
   finished_at: "2020-06-17T20:56:33.623Z"
@@ -50,7 +49,7 @@ Sample output
 ```
 
 `POST /shapr/conversion/`: Create a new conversion transaction
-Sample input
+
 ```
 {
   targettype: [step|iges|stl|obj]
@@ -58,7 +57,7 @@ Sample input
 ```
 
 `POST /shapr/upload/`: Upload a file to a conversion
-Sample input
+
 ```
 
     file: File,
