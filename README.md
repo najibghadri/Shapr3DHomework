@@ -37,21 +37,33 @@ I created the following simple REST api:
 `GET /shapr/conversion/` : Get all conversions for a user
 
 `GET /shapr/conversion/:id/`: Get a conversion transaction by ID
+Sample output
+```
+  created_at: "2020-06-17T20:56:24.539Z"
+  finished_at: "2020-06-17T20:56:33.623Z"
+  id: "Oi6C6Itz5jNlT71zJ213sztAUEmiDbff"
+  input_file: "cardesign.shapr"
+  output_file: "cardesign.iges"
+  status: 2 (0: waiting, 1: in-progress, 2: completed, 3: failed)
+  target_type: "iges"
+  user_id: "0"
+```
 
 `POST /shapr/conversion/`: Create a new conversion transaction
-
-```formdata
+Sample input
+```
 {
   targettype: [step|iges|stl|obj]
 }
 ```
 
 `POST /shapr/upload/`: Upload a file to a conversion
-```formdata
-{
+Sample input
+```
+
     file: File,
     txid: conversion transaction id
-}
+
 ```
 
 `GET /shapr/files/:filename/`: Download a file 
