@@ -84,7 +84,7 @@ Main packages used
 There are two parts for the currrent server. The request server handles incoming requests and files and handles file serving, and in case of a conversion transaction request it spawns an **independent** node.js conversion process. **Note**, in production instead of using Node.js for the conversion control process a more lightweight process, such as a Go srevice would be prefect, which has faster spin-up speed and doesn't eat a lot of memory, like a V8 does. Conversion processes control and read the conversion binary (that is mocked/stubbed here). The conversion processes write updates to both Redis and Postgre and the request servers read/write data from/to there.
 
 Architecture:
-![image](https://user-images.githubusercontent.com/11639734/84956013-a384f880-b0f8-11ea-9bc3-ccb545afe92a.png)
+![image](https://user-images.githubusercontent.com/11639734/85025772-1d0ffb80-b178-11ea-969d-a89df83d1398.png)
 
 ### Binary stub
 
