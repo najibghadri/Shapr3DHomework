@@ -154,7 +154,7 @@ Caching should be extended to cache-aside/read through strategy with ttl expiry 
 
 On AWS I set up the smallest (500MB) free ElastiCache Redis instance and I already had a Postgresql instance and an EC2 instance. I used the local DB and Redis for testing and the RDS and ElastiCache for "production".
 
-I had to reconfigure Nginx to host shapr server next to the [Quarantime.io](https://quarantime.io/) app server. The config file can be found. shapr-server/nginx.config.
+I had to reconfigure Nginx to host shapr server next to the [Quarantime.io](https://quarantime.io/) app server. The config file can be found is shapr-server/nginx.config.
 
 ## Development Environment
 
