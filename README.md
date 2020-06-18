@@ -104,7 +104,7 @@ and the length of an ID is 32 characters, which gives 1%/~23 trillions years cha
 The schema is defined in shapr-server/shapr.sql
 I use the well-tested knex.js library for database connection. Knex allows migrations and and seed based table generation, important for production. 
 
-This is how the schema looks:
+This is how the schema looks like:
 ![image](https://user-images.githubusercontent.com/11639734/84951667-0bcfdc00-b0f1-11ea-9a19-edfed7dba523.png)
 
 The cache server is simply used to store and retrieve the progress of each transaction rapidly. It's a very simple hash store.
